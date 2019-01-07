@@ -4,6 +4,7 @@ Based on XPT2046 Touchscreen lib: https://github.com/PaulStoffregen/XPT2046_Touc
 Modifications:  
 - Align the rotation function with GFX's setRotation(1).
 - Add LCDcalibrate.ino in examples.
+- Add TSpaint.ino in examples.
 
 XPT2046_Touchscreen is a library for the XPT2046 resistive touchscreen controllers used on many low cost TFT displays.
 
