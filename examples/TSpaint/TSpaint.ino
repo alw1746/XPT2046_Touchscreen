@@ -19,6 +19,7 @@ Prerequisites:
 #include "Adafruit_ILI9486_STM32.h"
 #include <XPT2046_Touchscreen.h>
 #include <math.h>
+#include <Button.h>
 
 #define TS_CS_PIN  PA3
 #define Serial Serial1    //use Serial1 port
@@ -44,6 +45,7 @@ Prerequisites:
 Adafruit_GFX_Button buttonCLR;
 XPT2046_Touchscreen ts(TS_CS_PIN);
 Adafruit_ILI9486_STM32 tft;
+Button button(PB6, Button::INTERNAL_PULLDOWN);   //toggle smile/sad face
 
 int oldcolor, currentcolor,PSZx,PSZy,penradius;
 int upt,upb,upl,upr,dnt,dnb,dnl,dnr;
@@ -110,6 +112,13 @@ void setup()
 }
 
 void loop(void) {
+  button.process();
+  if (button.press()) {
+    if (penradius == MAX_PENRADIUS) {
+      SMILE = !SMILE;
+      drawSmiley(&tft,PSZx,PSZy,penradius,currentcolor);   //smiley if at max size
+    }
+  }
   if (ts.bufferEmpty() || !ts.touched()) {    
     return;
   }
@@ -263,7 +272,7 @@ void drawSmiley(Adafruit_GFX *gfx,int x,int y,int penradius,uint16_t currentcolo
   else {  //sad face
     for (int roffset=7; roffset < 10; roffset++) {   //draw several times for thicker line
       for (double c = 2.25; c < 4.0; c += 0.05) {    //arc at top of circle shifted downwards
-        gfx->drawPixel(sin(c)*(penradius-roffset)+x,cos(c)*(penradius-roffset)+y*2,BLACK);
+        gfx->drawPixel(sin(c)*(penradius-roffset)+x,cos(c)*(penradius-roffset)+y+20,BLACK);
       }
     }
   }
@@ -277,4 +286,3 @@ void drawStar(Adafruit_GFX *gfx,int x,int y,int penradius,uint16_t currentcolor)
   gfx->drawTriangle(x-13,y+15,x-8,y+2,x,y+8,currentcolor);    //bottom left
   gfx->drawTriangle(x+13,y+15,x+8,y+2,x,y+8,currentcolor);    //bottom right
 }
-
