@@ -150,7 +150,8 @@ void XPT2046_Touchscreen::update()
 	//Serial.println();
 	if (z >= Z_THRESHOLD) {
 		msraw = now;	// good read completed, set wait
-		switch (rotation) {
+/*
+		switch (rotation) {  //original code
 		  case 0:
 			xraw = 4095 - y;
 			yraw = x;
@@ -160,13 +161,36 @@ void XPT2046_Touchscreen::update()
 			yraw = y;
 			break;
 		  case 2:
-			xraw = y;
-			yraw = 4095 - x;
+			yraw = y;
+			xraw = 4095 - x;
 			break;
 		  default: // 3
 			xraw = 4095 - x;
 			yraw = 4095 - y;
 		}
+    */
+    //rearrange case 1(top left corner) to be touchscreen origin in landscape mode.
+    //x-axis is left->right, y-axis is top->bottom.
+    //This makes it consistent with tft.setRotation(1) to landscape mode.
+	    	switch (rotation) {
+		  case 0:
+			xraw = x;
+			yraw = y;
+			break;
+		  case 1:
+			yraw = y;
+			xraw = 4095 - x;
+			break;
+		  case 2:
+			xraw = 4095 - x;
+			yraw = 4095 - y;
+	      	  break;
+		  	default: //3
+	                xraw = 4095 - y;
+			yraw = x;
+			break;
+	    	}
+
 	}
 }
 
