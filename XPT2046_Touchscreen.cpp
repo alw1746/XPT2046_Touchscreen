@@ -171,7 +171,7 @@ void XPT2046_Touchscreen::update()
     */
     //rearrange case 1(top left corner) to be touchscreen origin in landscape mode.
     //x-axis is left->right, y-axis is top->bottom.
-    //This makes it consistent with tft.setRotation(1) to landscape mode.
+    //This makes it consistent with tft.setRotation(1) in landscape mode.
 	    	switch (rotation) {
 		  case 0:
 			xraw = x;
