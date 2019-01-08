@@ -1,7 +1,6 @@
 # XPT2046 Touchscreen Arduino Library
 
-Based on XPT2046 Touchscreen lib: https://github.com/PaulStoffregen/XPT2046_Touchscreen.  
-Modifications:  
+Modifications to original code:  
 - Align the rotation function with GFX's setRotation(1).
 - Add LCDcalibrate.ino in examples.
 - Add TSpaint.ino in examples.
